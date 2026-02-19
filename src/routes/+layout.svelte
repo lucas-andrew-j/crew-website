@@ -14,14 +14,14 @@
 		EXPERIENCE
 	</div>
 	<nav>
-		<div class="nav-item">HOME</div>
-		<div class="nav-item">VENTURING</div>
-		<div class="nav-item">ABOUT</div>
-		<div class="nav-item">PAST EVENTS</div>
-		<div class="nav-item">FUTURE ADVENTURES</div>
-		<div class="nav-item">DONATE/VOLUNTEER</div>
-		<div class="nav-item">CONTACT</div>
-		<div class="nav-item">MORE</div>
+		<a href="/" class="nav-item">HOME</a>
+		<a href="/venturing" class="nav-item">VENTURING</a>
+		<a href="/about" class="nav-item">ABOUT</a>
+		<a href="/past-events" class="nav-item">PAST EVENTS</a>
+		<a href="/future-adventures" class="nav-item">FUTURE ADVENTURES</a>
+		<a href="/donate-volunteer" class="nav-item">DONATE/VOLUNTEER</a>
+		<a href="/contact" class="nav-item">CONTACT</a>
+		<a href="/more" class="nav-item">MORE</a>
 	</nav>
 	<div class="logo" style="visibility:hidden;">OLYMPIC<br/>
 		ADVENTURE<br/>
@@ -51,7 +51,7 @@
         margin-left: auto;
         margin-right: auto;
         align-items: center;
-				flex-grow:0
+				flex-grow:0;
     }
 
     .nav-item {
@@ -65,6 +65,7 @@
         border-left: solid 1px;
         border-left-color: rgb(71, 79, 118);
         color: rgb(71, 79, 118);
+        text-decoration: none;
     }
 
     .nav-item:hover {
