@@ -8,12 +8,12 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="header-section">
+<header>
 	<div class="logo">OLYMPIC<br/>
 		ADVENTURE<br/>
 		EXPERIENCE
 	</div>
-	<div class="nav">
+	<nav>
 		<div class="nav-item">HOME</div>
 		<div class="nav-item">VENTURING</div>
 		<div class="nav-item">ABOUT</div>
@@ -22,15 +22,17 @@
 		<div class="nav-item">DONATE/VOLUNTEER</div>
 		<div class="nav-item">CONTACT</div>
 		<div class="nav-item">MORE</div>
-	</div>
+	</nav>
 	<div class="logo" style="visibility:hidden;">OLYMPIC<br/>
 		ADVENTURE<br/>
 		EXPERIENCE
 	</div>
-</div>
+</header>
+
+{@render children()}
 
 <style>
-    .header-section {
+    header {
         display: flex;
         align-items: center;
 				gap: 4em;
@@ -43,7 +45,7 @@
 				flex-grow: 1;
 		}
 
-    .nav {
+    nav {
         display: flex;
         max-width: fit-content;
         margin-left: auto;
@@ -73,6 +75,10 @@
     .nav-item + .nav-item {
         border-left: none;
     }
-</style>
 
-{@render children()}
+		@media (min-width: 82em) and (min-width: 768px) {
+			.logo {
+					background-color: transparent;
+			}
+		}
+</style>

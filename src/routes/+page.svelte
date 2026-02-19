@@ -3,7 +3,7 @@
 </script>
 
 <title>HOME</title>
-<div class="background" style="background-image:url({home_background});">
+<div class="page" style="background-image:url({home_background});">
 	<div>
 		LEAD THE ADVENTURE
 	</div>
@@ -13,20 +13,10 @@
 </div>
 
 <style>
-    .header-section {
-        display: flex;
-    }
-
-    .nav {
-        max-width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-		.background {
+		.page {
+				flex: 1;
 				background-size:cover;
 				background-position:center;
-				height:100vh;
 				display:flex;
 				flex-direction:column;
 				align-items:center;
