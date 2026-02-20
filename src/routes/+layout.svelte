@@ -8,8 +8,7 @@
 		{ label: 'PAST EVENTS', path: 'past-events' },
 		{ label: 'FUTURE ADVENTURES', path: 'future-adventures' },
 		{ label: 'DONATE/VOLUNTEER', path: 'donate-volunteer' },
-		{ label: 'CONTACT', path: 'contact' },
-		{ label: 'MORE', path: 'more' }];
+		{ label: 'CONTACT', path: 'contact' }];
 
 	let currentPage = $derived(page.url.pathname.split('/')[1]);
 
