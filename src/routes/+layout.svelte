@@ -1,5 +1,17 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
+	import { page } from '$app/state';
+
+	const pages = [{ label: 'HOME', path: '' },
+		{ label: 'VENTURING', path: 'venturing' },
+		{ label: 'ABOUT', path: 'about' },
+		{ label: 'PAST EVENTS', path: 'past-events' },
+		{ label: 'FUTURE ADVENTURES', path: 'future-adventures' },
+		{ label: 'DONATE/VOLUNTEER', path: 'donate-volunteer' },
+		{ label: 'CONTACT', path: 'contact' },
+		{ label: 'MORE', path: 'more' }];
+
+	let currentPage = $derived(page.url.pathname.split('/')[1]);
 
 	let { children } = $props();
 </script>
@@ -9,22 +21,17 @@
 </svelte:head>
 
 <header>
-	<div class="logo">OLYMPIC<br/>
-		ADVENTURE<br/>
+	<div class="logo">OLYMPIC<br />
+		ADVENTURE<br />
 		EXPERIENCE
 	</div>
 	<nav>
-		<a href="/" class="nav-item">HOME</a>
-		<a href="/venturing" class="nav-item">VENTURING</a>
-		<a href="/about" class="nav-item">ABOUT</a>
-		<a href="/past-events" class="nav-item">PAST EVENTS</a>
-		<a href="/future-adventures" class="nav-item">FUTURE ADVENTURES</a>
-		<a href="/donate-volunteer" class="nav-item">DONATE/VOLUNTEER</a>
-		<a href="/contact" class="nav-item">CONTACT</a>
-		<a href="/more" class="nav-item">MORE</a>
+		{#each pages as page}
+			<a href="/{page.path}" aria-current="{currentPage === page.path}" class="nav-item">{page.label}</a>
+		{/each}
 	</nav>
-	<div class="logo" style="visibility:hidden;">OLYMPIC<br/>
-		ADVENTURE<br/>
+	<div class="logo" style="visibility:hidden;">OLYMPIC<br />
+		ADVENTURE<br />
 		EXPERIENCE
 	</div>
 </header>
@@ -35,15 +42,15 @@
     header {
         display: flex;
         align-items: center;
-				gap: 4em;
+        gap: 4em;
         padding: 2em;
     }
 
-		.logo {
+    .logo {
         font-weight: bold;
-				text-align: right;
-				flex-grow: 1;
-		}
+        text-align: right;
+        flex-grow: 1;
+    }
 
     nav {
         display: flex;
@@ -51,7 +58,7 @@
         margin-left: auto;
         margin-right: auto;
         align-items: center;
-				flex-grow:0;
+        flex-grow: 0;
     }
 
     .nav-item {
@@ -68,6 +75,10 @@
         text-decoration: none;
     }
 
+    .nav-item[aria-current=true] {
+        border-bottom: 5px solid rgb(71, 79, 118);
+    }
+
     .nav-item:hover {
         color: white;
         background-color: rgb(71, 79, 118);
@@ -77,9 +88,9 @@
         border-left: none;
     }
 
-		@media (min-width: 82em) and (min-width: 768px) {
-			.logo {
-					background-color: transparent;
-			}
-		}
+    @media (min-width: 82em) and (min-width: 768px) {
+        .logo {
+            background-color: transparent;
+        }
+    }
 </style>
