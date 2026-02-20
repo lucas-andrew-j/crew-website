@@ -1,9 +1,10 @@
 <script>
 
+import default_background from '$lib/assets/default_background.jpg';
 </script>
 
 <title>PAST EVENTS</title>
-<div class="page">
+<div class="page" style="background-image:url({default_background});">
 	UNDER CONSTRUCTION
 </div>
 

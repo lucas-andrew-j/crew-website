@@ -1,9 +1,9 @@
 <script>
-
+	import venturing_background from '$lib/assets/venturing_background.jpg';
 </script>
 
 <title>VENTURING</title>
-<div class="page">
+<div class="page" style="background-image:url({venturing_background});">
 	UNDER CONSTRUCTION
 </div>
 

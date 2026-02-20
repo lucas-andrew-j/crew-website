@@ -1,9 +1,9 @@
 <script>
-
+	import about_background from '$lib/assets/about_background.jpg';
 </script>
 
 <title>ABOUT</title>
-<div class="page">
+<div class="page" style="background-image:url({about_background});">
 	UNDER CONSTRUCTION
 </div>
 
