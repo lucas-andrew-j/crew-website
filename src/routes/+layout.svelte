@@ -24,7 +24,10 @@
 		ADVENTURE<br />
 		EXPERIENCE
 	</div>
-	<nav>
+	<button class="menu-button">
+		☰
+	</button>
+	<nav id="nav-menu">
 		{#each pages as page}
 			<a href="/{page.path}" aria-current="{currentPage === page.path}" class="nav-item">{page.label}</a>
 		{/each}
@@ -47,17 +50,25 @@
 
     .logo {
         font-weight: bold;
+        position: relative;
+        justify-self: center;
         text-align: right;
-        flex-grow: 1;
+    }
+
+    .menu-button {
+        position: absolute;
+        top: 0;
+        left: 1;
     }
 
     nav {
         display: flex;
-        max-width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-        align-items: center;
-        flex-grow: 0;
+        flex-direction: column;
+        gap: 1em;
+        justify-content: center;
+        width: fit-content;
+        position: absolute;
+        visibility: hidden;
     }
 
     .nav-item {
@@ -89,7 +100,18 @@
 
     @media (min-width: 82em) and (min-width: 768px) {
         .logo {
-            background-color: transparent;
+            flex-grow: 1;
+        }
+
+        nav {
+            flex-direction: row;
+            width: auto;
+            position: static;
+            visibility: visible;
+        }
+
+        .menu-button {
+            visibility: hidden;
         }
     }
 </style>
