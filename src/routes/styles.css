@@ -1,0 +1,10 @@
+h1 {
+	color: white;
+	font-weight: bold;
+	/*width: 50rem;*/
+	justify-self: left;
+}
+
+.content {
+	width: 50rem;
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
+	import './styles.css';
 
 	const pages = [{ label: 'HOME', path: '' },
 		{ label: 'VENTURING', path: 'venturing' },
@@ -64,7 +65,6 @@
     nav {
         display: flex;
         flex-direction: column;
-        gap: 1em;
         justify-content: center;
         width: fit-content;
         position: absolute;
@@ -72,9 +72,9 @@
     }
 
     .nav-item {
-        min-height: 4em;
-        min-width: 137px;
-        max-width: 137px;
+        min-height: 4rem;
+        min-width: 9rem;
+        max-width: 9rem;
         text-align: center;
         align-content: center;
         border-right: solid 1px;
@@ -86,7 +86,7 @@
     }
 
     .nav-item[aria-current=true] {
-        border-bottom: 5px solid rgb(71, 79, 118);
+        border-bottom: 0.3rem solid rgb(71, 79, 118);
     }
 
     .nav-item:hover {
@@ -98,7 +98,7 @@
         border-left: none;
     }
 
-    @media (min-width: 82em) and (min-width: 768px) {
+    @media (min-width: 82rem) {
         .logo {
             flex-grow: 1;
         }
