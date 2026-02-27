@@ -1,10 +1,21 @@
 h1 {
 	color: white;
 	font-weight: bold;
-	/*width: 50rem;*/
 	justify-self: left;
+}
+
+h1.dark {
+	color: rgb(71, 79, 118);
 }
 
 .content {
 	width: 50rem;
+}
+
+p {
+	color: white;
+}
+
+p.dark {
+	color: rgb(71, 79, 118);
 }

@@ -7,13 +7,13 @@
 	<div class="content">
 		<h1>VENTURING: Crew 1548</h1>
 		<div><p>Venturing is a youth-led leadership program that is designed for young adults that
-			want
-			to test their limits and expand the bounds of what is possible. Crew 1548 was formed to connect friends and family
-			around high adventure.</p>
-			<p>The Venturing program is divided into four areas: Adventure, Leadership, Personal Growth, and Service. Each of
-				these pillars represent a unique aspect of the Venturing program. In a Crew’s program, the focus is to provide
-				opportunities in all four areas.</p>
-			<p>Crew 1548 works very closely with Olympic Adventure Experience. Their main focus is mountaineering.</p>
+			want to test their limits and expand the bounds of what is possible. Crew 1548 was formed to
+			connect friends and family around high adventure.</p>
+			<p>The Venturing program is divided into four areas: Adventure, Leadership, Personal Growth,
+				and Service. Each of these pillars represent a unique aspect of the Venturing program. In a
+				Crew’s program, the focus is to provide opportunities in all four areas.</p>
+			<p>Crew 1548 works very closely with Olympic Adventure Experience. Their main focus is
+				mountaineering.</p>
 		</div>
 	</div>
 </div>
