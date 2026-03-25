@@ -2,6 +2,8 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import './styles.css';
+	import { onMount } from 'svelte';
+	import { getAuthState, initAuth0, login, logout } from '$lib/auth.svelte';
 
 	const pages = [{ label: 'HOME', path: '' },
 		{ label: 'VENTURING', path: 'venturing' },
@@ -14,6 +16,11 @@
 	let currentPage = $derived(page.url.pathname.split('/')[1]);
 
 	let { children } = $props();
+
+	onMount(() => {
+		initAuth0();
+	});
+	const auth = getAuthState();
 </script>
 
 <svelte:head>
@@ -37,6 +44,13 @@
 		ADVENTURE<br />
 		EXPERIENCE
 	</div>
+	{#if auth.isLoading}
+		<p>Loading...</p>
+	{:else if auth.isAuthenticated}
+		<button onclick={logout}>Log Out</button>
+	{:else}
+		<button onclick={login}>Log In</button>
+	{/if}
 </header>
 
 {@render children()}
