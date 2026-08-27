@@ -6,31 +6,13 @@
 <main class="flex flex-1 justify-center items-center">
 	<img src={home_background} alt="people camping on snow" fetchpriority="high"
 			 class="absolute inset-0 -z-10 h-full w-full object-cover" />
-	<div style="padding: 2em;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.5);
-				position: relative;
-				top: 5vh;">
-		<div style="font-size: 2em;
-        font-weight: 900;
-        color: white;
-        letter-spacing: .08em;
-        margin-bottom: 1.5em;">
+	<div class="p-8 bg-cover bg-center flex flex-col items-center justify-center bg-black/50">
+		<div class="text-3xl font-black text-white tracking-widest mb-12">
 			LEAD THE ADVENTURE
 		</div>
-		<a style="text-align: center;
-        align-content: center;
-        color: white;
-        text-decoration: none;
-        border: 1px solid white;
-        min-width: 11em;
-        min-height: 4em;
-        margin-top: 1.5em;" href="/about">
+		<a
+			class="text-center content-center text-white no-underline border border-white min-w-[11em] min-h-[4em] mt-[1.5em] hover:text-black hover:bg-white transition duration-300"
+			href="/about">
 			ABOUT
 		</a>
 	</div>
