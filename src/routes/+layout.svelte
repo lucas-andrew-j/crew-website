@@ -58,7 +58,7 @@
 				 aria-hidden={isOverflowing}>
 			{#each pages as p (p.label)}
 				<a href="/{p.path}" aria-current="{currentPage === p.path ? 'page' : undefined}"
-					 class={{'w-34 h-16 flex items-center text-center justify-center text-base text-blue-900 hover:text-white hover:bg-blue-900 transition-colors border-blue-900': true,
+					 class={{'w-34 h-16 flex items-center text-center justify-center text-base text-default-blue hover:text-white hover:bg-default-blue transition-colors border-default-blue': true,
 									 'border-b-2': currentPage === p.path,}}>
 					{p.label}
 				</a>
@@ -72,7 +72,7 @@
 				aria-label="Toggle navigation menu"
 				onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
 			>
-				<svg class="w-6 h-6 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<svg class="w-6 h-6 text-default-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					{#if mobileMenuOpen}
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
 					{:else}
@@ -88,8 +88,8 @@
 							 aria-current={currentPage === p.path ? 'page' : undefined}
 							 onclick={() => (mobileMenuOpen = false)}
 							 class={{'w-full h-16 flex items-center justify-center text-base transition-colors': true,
-											 'text-blue-900 hover:text-white hover:bg-blue-900': currentPage !== p.path,
-											 'text-white bg-blue-900': currentPage === p.path,
+											 'text-default-blue hover:text-white hover:bg-default-blue': currentPage !== p.path,
+											 'text-white bg-default-blue': currentPage === p.path,
 							 }}
 						>
 							{p.label}
