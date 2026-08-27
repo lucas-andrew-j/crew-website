@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import oae_logo from '$lib/assets/oae_logo.svg';
 	import { page } from '$app/state';
 
 	const pages = [{ label: 'HOME', path: '' },
@@ -39,17 +39,15 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href={oae_logo} />
 </svelte:head>
 
 <header>
 	<nav bind:this={navContainer}
 			 class={{'relative flex items-center py-4 bg-white': true,
 			 				 'text-center justify-center': isOverflowing === true}}>
-		<div bind:this={desktopLogo} class={{'px-6': true, 'text-center': isOverflowing === true}}>
-			OLYMPIC<br />
-			ADVENTURE<br />
-			EXPERIENCE
+		<div bind:this={desktopLogo} class={{'px-6 min-h-20': true, 'text-center': isOverflowing === true}}>
+			<img src={oae_logo} class="w-20 h-20" alt="olympic adventure experience logo" />
 		</div>
 
 		<div bind:this={desktopNav}
