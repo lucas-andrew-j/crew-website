@@ -1,7 +1,7 @@
 import { pgTable, integer, varchar, timestamp, check, index } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
-export const events = pgTable('events', {
+export const eventsTable = pgTable('events', {
     id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
     name: varchar('name', {length: 50}).notNull(),
     startDateTime: timestamp('start_date_time', {withTimezone: true}).notNull(),

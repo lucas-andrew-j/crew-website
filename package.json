@@ -32,6 +32,7 @@
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.3.0",
 		"@types/node": "^22",
+		"@types/pg": "^8.23.1",
 		"@vitest/browser-playwright": "^4.1.8",
 		"auth": "^1.6.23",
 		"better-auth": "^1.6.23",
@@ -54,5 +55,8 @@
 		"vite": "^8.0.16",
 		"vitest": "^4.1.8",
 		"vitest-browser-svelte": "^2.1.1"
+	},
+	"dependencies": {
+		"pg": "^8.23.0"
 	}
 }
