@@ -5,7 +5,10 @@
     let { data } = $props();
 </script>
 
-<title>PAST EVENTS</title>
+<svelte:head>
+    <title>PAST EVENTS</title>
+</svelte:head>
+
 <main class="flex flex-1 justify-center">
     <img src={default_background} alt="looking north at Mt Hood, Mt Adams, and Mt St Helens" fetchpriority="high"
          class="absolute inset-0 -z-10 h-full w-full object-cover" />

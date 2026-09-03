@@ -2,7 +2,10 @@
 	import venturing_background from '$lib/assets/venturing_background.jpg';
 </script>
 
-<title>VENTURING</title>
+<svelte:head>
+	<title>VENTURING</title>
+</svelte:head>
+
 <main class="flex-col flex-1 justify-center">
 	<img src={venturing_background} alt="looking up at mt adams" fetchpriority="high"
 			 class="absolute inset-0 -z-10 h-full w-full object-cover" />

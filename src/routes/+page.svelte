@@ -2,7 +2,10 @@
 	import home_background from '$lib/assets/home_background.jpg';
 </script>
 
-<title>HOME</title>
+<svelte:head>
+	<title>HOME</title>
+</svelte:head>
+
 <main class="flex flex-1 justify-center items-center">
 	<img src={home_background} alt="people camping on snow" fetchpriority="high"
 			 class="absolute inset-0 -z-10 h-full w-full object-cover" />
