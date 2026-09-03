@@ -10,7 +10,8 @@
 		{ label: 'FUTURE ADVENTURES', path: 'future-adventures' },
 		{ label: 'DONATE/VOLUNTEER', path: 'donate-volunteer' },
 		{ label: 'CONTACT', path: 'contact' },
-		{ label: 'REGISTRATION', path: 'registration' }];
+		// { label: 'REGISTRATION', path: 'registration' }
+	];
 
 	let currentPage = $derived(page.url.pathname.split('/')[1]);
 
