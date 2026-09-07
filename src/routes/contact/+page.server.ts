@@ -38,7 +38,6 @@ export const actions = {
 		const validation = await validateTurnstile(token, ip);
 
 		if (validation.success) {
-			//send the email
 			console.log('Turnstile validation success');
 			console.log(data);
 		} else {

@@ -1,8 +1,5 @@
 <script>
     import default_background from '$lib/assets/default_background.jpg';
-    import donate_one from '$lib/assets/donate_one.jpg';
-    import donate_two from '$lib/assets/donate_two.jpg';
-    import donate_three from '$lib/assets/donate_three.jpg';
 </script>
 
 <svelte:head>
@@ -12,18 +9,18 @@
 <main class="flex-col flex-1 justify-center">
     <img src={default_background} alt="looking south from mt adams" fetchpriority="high"
          class="fixed inset-0 -z-10 h-full w-full object-cover"/>
-    <div class="prose mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-8 [&_p]:text-default-blue [&_h3]:text-default-blue">
+    <div class="prose mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-8 mb-8 [&_p]:text-default-blue [&_h3]:text-default-blue">
         <h1 class="text-default-blue">Contact Us</h1>
         <div
                 class="relative h-60 overflow-hidden max-w-full rounded-lg">
             <iframe src="https://maps.google.com/maps?q=11701%20Ridgepoint%20Dr%20NW%2C%20Silverdale%2C%20WA%2098383&t=m&z=15&ie=UTF8&iwloc=B&output=embed"
                     class="absolute inset-0 h-full w-full object-cover"
-                    title="addres on google maps">
+                    title="address on google maps">
                 allowfullscreen
                 loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
-        <div class="flex flex-row-reverse pt-4">
+        <div class="flex sm:flex-row-reverse gap-y-8 flex-col pt-4 gap-x-8">
             <div class="prose w-full sm:float-left sm:w-1/3">
                 <h3>Joining Us</h3>
                 <p>The first step in joining OAE is to come to one of our regular meetings.</p>
@@ -47,7 +44,7 @@
             <div class="flex-1">
                 <h3 class="mt-0">GET IN TOUCH WITH US!</h3>
                 YOUR EMAIL ADDRESS WILL NOT BE PUBLISHED.
-                <form method="POST">
+                <form method="POST" class="flex flex-col [&_label]:flex [&_label]:flex-col [&_label]:pt-4">
                     <label>
                         Name
                         <input
@@ -70,17 +67,19 @@
                     </label>
                     <label>
                         Message
-                        <input
+                        <textarea
                             name="message"
                             required
-                        />
+                            rows="10"
+                        >
+                            </textarea>
                     </label>
-                    <div class="cf-turnstile"
+                    <div class="cf-turnstile pt-6"
                          data-sitekey="0x4AAAAAAEp6CP5eujalxeMC"
                          data-theme="light"
                          data-size="normal"
                          data-callback="onSuccess"></div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="bg-default-blue text-white mt-4 h-12 w-36">Submit</button>
                 </form>
             </div>
         </div>
