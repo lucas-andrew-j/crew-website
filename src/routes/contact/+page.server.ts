@@ -2,6 +2,7 @@ import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { escapeHtml } from '$lib/utils/sanitize.ts';
+import { fail } from '@sveltejs/kit';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -42,30 +43,31 @@ export const actions = {
 			console.log(data);
 		} else {
 			console.log('Turnstile validation error:', validation['error-codes']);
-			return;
+			return fail(400, { message: 'Turnstile validation failed' });
 		}
 
 		if (!data.get('name') || !data.get('email') || !data.get('message')) {
 			console.log('One or more required fields is null');
-			return;
+			return fail(400, { message: 'One or more required fields is empty' });
 		}
 
 		const { success, error } = await resend.emails.send({
 			from: 'Olympic Adventure Experience <onboarding@resend.dev>',
 			to: ['ajcoconut@proton.me'],
-			replyTo: data.email,
+			replyTo: [data.get('email')],
 			subject: `New contact form submission from ${data.get('name')}`,
 			html: `
-				<p><strong>Name:</strong> ${data.get('name')}</p>
-				<p><strong>Email:</strong> ${data.get('email')}</p>
-				<p><strong>Phone:</strong> ${data.get('phone')}</p>
+				<p><strong>Name:</strong> ${escapeHtml(data.get('name'))}</p>
+				<p><strong>Email:</strong> ${escapeHtml(data.get('email'))}</p>
+				<p><strong>Phone:</strong> ${escapeHtml(data.get('phone'))}</p>
 				<p><strong>Message:</strong></p>
-				<p>${data.get('message')}</p>
+				<p>${escapeHtml(data.get('message'))}</p>
 			`
 		});
 
 		if (error) {
-			return console.error({ error });
+			console.error({ error });
+			return fail(400, { message: 'Unknown error occurred.' });
 		}
 	}
 };
