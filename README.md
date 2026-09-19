@@ -1,42 +1,14 @@
-# sv
+# README
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## SETUP
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --add prettier eslint vitest="usages:unit,component" playwright tailwindcss="plugins:typography,forms" drizzle="database:postgresql+postgresql:postgres.js+docker:yes" better-auth="demo:password" sveltekit-adapter="adapter:node" --install npm crew-website
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+1. Install Docker.
+2. Install [PostgreSQL](https://orm.drizzle.team/docs/guides/postgresql-local-setup) on docker
+3. Run `docker exec -it drizzle-postgres psql -U postgres -c "CREATE DATABASE crew_db;"` to create the website database
+4. Create a .env file at the root of your project directory (at the same level as the src directory)
+5. Put `DATABASE_URL="postgres://postgres:mypassword@localhost:5432/crew_db"` into the .env file.
+5. In your terminal, at the root of the project, run `npm isntall`.
+6. In the same terminal, run `drizzle-kit migrate`.
+6. In the same terminal, run `npm run dev`.
+7. Ctrl-click the url in the terminal.
+ 
