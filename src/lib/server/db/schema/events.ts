@@ -14,4 +14,4 @@ export const eventsTable = pgTable('events', {
 	index('end_date_time_idx').on(table.endDateTime),
 ]);
 
-export * from './auth.schema';
+export * from './auth.ts';
