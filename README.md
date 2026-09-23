@@ -8,7 +8,7 @@
 4. Create a .env file at the root of your project directory (at the same level as the src directory)
 5. Put `DATABASE_URL="postgres://postgres:mypassword@localhost:5432/crew_db"` into the .env file.
 5. In your terminal, at the root of the project, run `npm isntall`.
-6. In the same terminal, run `drizzle-kit migrate`.
+6. In the same terminal, run `npx drizzle-kit migrate`.
 6. In the same terminal, run `npm run dev`.
 7. Ctrl-click the url in the terminal.
  

@@ -9,7 +9,7 @@ export async function load() {
 		.orderBy(eventsTable.startDateTime);
 
 	if (!events) error(404);
-git 
+
 	return {
 		events
 	};

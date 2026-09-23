@@ -1,18 +1,13 @@
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
-import { RESEND_API_KEY } from '$env/static/private';
-import { Resend } from 'resend';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
-import { APIError } from 'better-auth/api';
 import { isAPIError } from '@better-auth/core/utils/is-api-error';
 
-const resend = new Resend(RESEND_API_KEY);
-
-async function validateTurnstile(token, remoteip) {
+async function validateTurnstile(token: string | null, remoteip: string) {
 	const formData = new FormData();
 	formData.append('secret', TURNSTILE_SECRET_KEY);
-	formData.append('response', token);
+	formData.append('response', token ?? '');
 	formData.append('remoteip', remoteip);
 
 	try {
@@ -40,7 +35,7 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
 
-		const token = data.get('cf-turnstile-response');
+		const token = data.get('cf-turnstile-response')?.toString() ?? null;
 		const ip =
 			request.headers.get('CF-Connecting-IP') ||
 			request.headers.get('X-Forwarded-For') ||
