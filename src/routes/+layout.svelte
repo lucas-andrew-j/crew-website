@@ -2,30 +2,32 @@
 	import './layout.css';
 	import oae_logo from '$lib/assets/oae_logo.svg';
 	import { page } from '$app/state';
+	import { authClient } from '$lib/client/auth';
+	import { invalidate, goto } from '$app/navigation';
 
 	const pages = [{ label: 'HOME', path: '' },
 		{ label: 'VENTURING', path: 'venturing' },
 		{ label: 'ABOUT', path: 'about' },
 		{ label: 'PAST EVENTS', path: 'past-events' },
 		{ label: 'FUTURE ADVENTURES', path: 'future-adventures' },
-		{ label: 'DONATE/VOLUNTEER', path: 'donate-volunteer' },
+		{ label: 'DONATE / VOLUNTEER', path: 'donate-volunteer' },
 		{ label: 'CONTACT', path: 'contact' },
-		// { label: 'REGISTRATION', path: 'registration' }
 	];
 
 	let currentPage = $derived(page.url.pathname.split('/')[1]);
 
 	let navContainer: HTMLElement = $state()!;
-	let desktopLogo: HTMLElement = $state()!;
+	let logo: HTMLElement = $state()!;
 	let desktopNav: HTMLElement = $state()!;
 	let isOverflowing = $state(false);
 	let mobileMenuOpen = $state(false);
+	let logoutError: string | null = $state(null);
 
 	$effect(() => {
 		if (!navContainer || !desktopNav) return;
 
 		const checkOverflow = () => {
-			isOverflowing = desktopNav.scrollWidth + desktopLogo.scrollWidth * 2 > navContainer.clientWidth;
+			isOverflowing = desktopNav.scrollWidth + logo.scrollWidth * 2 > navContainer.clientWidth;
 		};
 
 		const observer = new ResizeObserver(checkOverflow);
@@ -36,7 +38,7 @@
 		return () => observer.disconnect();
 	});
 
-	let { children } = $props();
+	let { data, children } = $props();
 </script>
 
 <svelte:head>
@@ -47,7 +49,7 @@
 	<nav bind:this={navContainer}
 			 class={{'relative flex items-center py-4 bg-white': true,
 			 				 'text-center justify-center': isOverflowing === true}}>
-		<div bind:this={desktopLogo} class={{'px-6 min-h-20': true, 'text-center': isOverflowing === true}}>
+		<div bind:this={logo} class={{'px-6 min-h-20': true, 'text-center': isOverflowing === true}}>
 			<img src={oae_logo} class="w-20 h-20" alt="olympic adventure experience logo" />
 		</div>
 
@@ -62,6 +64,35 @@
 					{p.label}
 				</a>
 			{/each}
+		</div>
+
+		<div class="absolute right-0 px-6">
+			{#if data.loggedIn}
+				<button class="bg-default-blue text-white p-2 text-center"
+					onclick={async () => {
+						logoutError = null;
+						try {
+							const { error } = await authClient.signOut();
+							if (error) {
+								logoutError = 'Failed to logout';
+								return;
+							}
+							await invalidate('app:auth');
+							goto('/');
+						} catch (e) {
+							console.error('Logout error:', e);
+							logoutError = 'Failed to logout';
+						}
+				}}>Logout</button>
+				{#if logoutError}
+					<p class="text-red-600 text-sm">{logoutError}</p>
+				{/if}
+			{:else}
+				<div class="flex flex-col gap-1">
+					<a class="bg-default-blue text-white p-2 text-center" href="/login">Login</a>
+					<a class="bg-default-blue text-white p-2 text-center" href="/register">Register</a>
+				</div>
+			{/if}
 		</div>
 
 		{#if isOverflowing}

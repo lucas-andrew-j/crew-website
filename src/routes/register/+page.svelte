@@ -1,7 +1,8 @@
 <script lang="ts">
 	import default_background from '$lib/assets/default_background.jpg';
-	import { enhance } from '$app/forms';
+	import { enhance, applyAction } from '$app/forms';
 	import type { ActionData } from './$types';
+	import { invalidate } from '$app/navigation';
 
 	let { form }: { form: ActionData } = $props();
 </script>
@@ -15,7 +16,10 @@
 			 class="fixed inset-0 -z-10 h-full w-full object-cover"/>
 	<div class="prose mx-auto px-4 sm:px-6 mt-8">
 		<h1 class="text-default-blue">Register</h1>
-		<form method="POST" use:enhance class="flex flex-col [&_label]:flex [&_label]:flex-col [&_label]:pt-4">
+		<form method="POST" use:enhance={() => async ({ result }) => {
+			await applyAction(result);
+			await invalidate('app:auth');
+		}} class="flex flex-col [&_label]:flex [&_label]:flex-col [&_label]:pt-4">
 			<label>
 				First Name
 				<input
@@ -49,8 +53,7 @@
 			<div class="cf-turnstile pt-6"
 					 data-sitekey="0x4AAAAAAEp6CP5eujalxeMC"
 					 data-theme="light"
-					 data-size="normal"
-					 data-callback="onSuccess"></div>
+					 data-size="normal"></div>
 			{#if form?.message}
 				<p class="text-red-600">{form.message}</p>
 			{/if}

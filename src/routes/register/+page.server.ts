@@ -2,7 +2,7 @@ import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
-import { isAPIError } from '@better-auth/core/utils/is-api-error';
+import { APIError } from 'better-auth/api';
 
 async function validateTurnstile(token: string | null, remoteip: string) {
 	const formData = new FormData();
@@ -59,17 +59,18 @@ export const actions: Actions = {
 
 		try {
 			await auth.api.signUpEmail({
+				headers: request.headers,
 				body: {
 					email,
 					password,
 					name: `${firstName} ${lastName}`,
 					firstName,
-					lastName,
+					lastName
 				}
 			});
 		} catch (error) {
-			if (isAPIError(error)) {
-				return fail(400, {message: error.message || 'Registration failed' });
+			if (error instanceof APIError) {
+				return fail(400, { message: 'Registration failed' });
 			}
 			console.error(error);
 			return fail(500, { message: 'Unexpected error' });
