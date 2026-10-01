@@ -3,8 +3,31 @@
 	import { enhance, applyAction } from '$app/forms';
 	import type { ActionData } from './$types';
 	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	let { form }: { form: ActionData } = $props();
+
+	onMount(() => {
+		let widgetId: string | undefined;
+		let intervalCount = 1;
+
+		const check = setInterval(() => {
+			if (window.turnstile || intervalCount > 50) {
+				clearInterval(check);
+			}
+
+			if (window.turnstile) {
+				widgetId = window.turnstile.render('.cf-turnstile', { sitekey: '0x4AAAAAAEp6CP5eujalxeMC' });
+			}
+
+			intervalCount++;
+		}, 100);
+
+		return () => {
+			clearInterval(check);
+			if (widgetId) window.turnstile?.remove(widgetId);
+		};
+	});
 </script>
 
 <svelte:head>
