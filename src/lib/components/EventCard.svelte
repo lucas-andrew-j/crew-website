@@ -5,4 +5,5 @@
 <div class="p-2">
     <h3>{event.name}</h3>
     <p class="indent-2">{event.startDateTime.toLocaleDateString()}</p>
+    <img src="{event.thumbnailUrl}" />
 </div>

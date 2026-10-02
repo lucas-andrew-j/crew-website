@@ -1,0 +1,1 @@
+ALTER TABLE "events" ADD COLUMN "album_key" varchar(20);
