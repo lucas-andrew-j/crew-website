@@ -6,6 +6,7 @@
     <h3>{event.name}</h3>
     <p class="indent-2">{event.startDateTime.toLocaleDateString()}</p>
     {#if event.thumbnailUrl}
-        <img src="{event.thumbnailUrl}" alt="thumbnail image for {event.name}"/>
+        <img src="{event.thumbnailUrl}" alt="thumbnail image for {event.name}"
+            class="object-cover w-72 h-48"/>
     {/if}
 </div>

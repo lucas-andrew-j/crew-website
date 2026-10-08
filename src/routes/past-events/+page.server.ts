@@ -24,7 +24,13 @@ export async function load() {
 			);
 
 			const imageData = await res.json();
-			const thumbnailUrl = imageData.Response?.AlbumImage?.ThumbnailUrl ?? null;
+
+			const album = imageData.Response?.AlbumImage;
+			const sizeDetailsUri = album?.Uris?.ImageSizeDetails?.Uri;
+			const sizeDetails = sizeDetailsUri ? imageData.Expansions?.[sizeDetailsUri] : null;
+
+			const thumbnailUrl =
+				sizeDetails?.ImageSizeDetails.ImageSizeX3Large?.Url ?? album?.ThumbnailUrl ?? null;
 
 			return { ...event, thumbnailUrl: thumbnailUrl };
 		})
