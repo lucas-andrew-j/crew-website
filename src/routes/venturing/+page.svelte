@@ -8,7 +8,7 @@
 
 <main class="flex-col flex-1 justify-center">
 	<img src={venturing_background} alt="looking up at mt adams" fetchpriority="high"
-			 class="absolute inset-0 -z-10 h-full w-full object-cover" />
+			 class="fixed inset-0 -z-10 h-full w-full object-cover" />
 	<div class="prose mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 mt-8 [&_p]:text-white">
 		<h1 class="text-white">VENTURING: Crew 1548</h1>
 		<p>Venturing is a youth-led leadership program that is designed for young adults that want to test their limits and

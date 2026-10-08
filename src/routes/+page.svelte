@@ -8,7 +8,7 @@
 
 <main class="flex flex-1 justify-center items-center">
 	<img src={home_background} alt="people camping on snow" fetchpriority="high"
-			 class="absolute inset-0 -z-10 h-full w-full object-cover" />
+			 class="fixed inset-0 -z-10 h-full w-full object-cover" />
 	<div class="p-8 bg-cover bg-center flex flex-col items-center justify-center bg-black/50">
 		<div class="text-3xl font-black text-white tracking-widest mb-12">
 			LEAD THE ADVENTURE

@@ -8,7 +8,7 @@
 
 <main class="flex-col flex-1 justify-center">
 	<img src={venturing_background} alt="looking south from mt adams" fetchpriority="high"
-			 class="absolute inset-0 -z-10 h-full w-full object-cover" />
+			 class="fixed inset-0 -z-10 h-full w-full object-cover" />
 	<div class="prose mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 mt-8 [&_p]:text-default-blue">
 		<h1 class="text-default-blue">About Olympic Adventure Experience</h1>
 		<p>Olympic Adventure Experience (OAE) is a non-profit organization that helps facilitate leadership opportunities
