@@ -3,6 +3,8 @@
     import EventCard from "$lib/components/EventCard.svelte";
 
     let { data } = $props();
+
+    const eventsByYear = $derived(Map.groupBy(data.eventsWithThumbnails, (event) => event.startDateTime.getFullYear()));
 </script>
 
 <svelte:head>
@@ -13,8 +15,11 @@
     <img src={default_background} alt="looking north at Mt Hood, Mt Adams, and Mt St Helens" fetchpriority="high"
          class="fixed inset-0 -z-10 h-full w-full object-cover" />
     <div class="p-8 bg-cover bg-center flex flex-col">
-        {#each data.eventsWithThumbnails as event (event.id)}
-            <EventCard {event}/>
+        {#each [...eventsByYear] as [year, events]}
+            <h2>{year}</h2>
+            {#each events as event (event.id)}
+                <EventCard {event}/>
+            {/each}
         {/each}
     </div>
 </main>
