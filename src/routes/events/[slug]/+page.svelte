@@ -15,5 +15,11 @@
 		<div class="prose">
 			<h1 class="text-default-blue">{data.event.name}</h1>
 		</div>
+		<div class="flex flex-row flex-wrap gap-4 max-w-[75rem]">
+		{#each data.imageUrls as urls}
+				<img src="{urls.thumbnailUrl}"
+						 class="object-cover w-72 h-48"/>
+		{/each}
+		</div>
 	</div>
 </main>

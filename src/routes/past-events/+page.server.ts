@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { eventsTable } from '../../lib/server/db/schema';
+import { eventsTable } from '$lib/server/db/schema';
 import { error } from '@sveltejs/kit';
 import { sql, desc } from 'drizzle-orm';
 import { API_KEY } from '$env/static/private'

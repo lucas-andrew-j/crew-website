@@ -26,7 +26,9 @@
             </div>
             <div class="flex flex-row flex-wrap gap-4 max-w-[75rem]">
                 {#each events as event (event.id)}
-                    <EventCard {event}/>
+                    <a href="../events/{event.id}">
+                        <EventCard {event}/>
+                    </a>
                 {/each}
             </div>
         {/each}
