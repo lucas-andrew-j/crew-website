@@ -18,52 +18,41 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	if (!event) error(404);
 
-	if (!event.albumKey) return { event, imageUrls: [] };
+	if (!event.albumKey) return { event, images: [] };
 
 	return {
 		event,
-		imageUrls: getAlbumImages(event.albumKey)
+		firstPage: getAlbumPage(`/api/v2/album/${event.albumKey}!images?count=100`)
 	};
 };
 
-async function getAlbumImages(albumKey) {
-	let res = await fetch(
-		`${SMUGMUG_API_BASE}/api/v2/album/${albumKey}!images?count=100&APIKey=${API_KEY}&_expand=ImageSizes`,
+async function getAlbumPage(uri: string): Promise<{ images: ImageUrls[]; next: Promise<any> | null }> {
+	const res = await fetch(
+		`${SMUGMUG_API_BASE}${uri}&APIKey=${API_KEY}&_expand=ImageSizes`,
 		{ headers: { Accept: 'application/json' } }
 	);
 
-	const imageUrls = [];
+	if (!res.ok) return { images: [], next: null };
 
-	while (true) {
-		if (!res.ok) break;
+	const albumData = await res.json();
+	const images = albumData.Response?.AlbumImage ?? [];
+	const imageUrls = images.map((image) => {
+		const sizesUri = image.Uris?.ImageSizes?.Uri;
+		const sizeDetails = sizesUri ? albumData.Expansions?.[sizesUri] : null;
+		const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
+		const smallerImageUrl =
+			sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
 
-		const albumData = await res.json();
+		return {
+			thumbnailUrl: smallerImageUrl,
+			largestImageUrl: largestImageUrl
+		};
+	});
 
-		const images = albumData.Response?.AlbumImage ?? [];
-		imageUrls.push(
-			...images.map((image) => {
-				const sizesUri = image.Uris?.ImageSizes?.Uri;
-				const sizeDetails = sizesUri ? albumData.Expansions?.[sizesUri] : null;
-				const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
-				const smallerImageUrl =
-					sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
+	const nextPage = albumData.Response?.Pages?.NextPage;
 
-				return {
-					thumbnailUrl: smallerImageUrl,
-					largestImageUrl: largestImageUrl
-				};
-			})
-		);
-
-		if (albumData.Response?.Pages?.NextPage) {
-			res = await fetch(
-				`${SMUGMUG_API_BASE}${albumData.Response.Pages.NextPage}&APIKey=${API_KEY}&_expand=ImageSizes`,
-				{ headers: { Accept: 'application/json' } }
-			);
-		} else {
-			break;
-		}
-	}
-
-	return imageUrls;
+	return {
+		images: imageUrls,
+		next: nextPage ? getAlbumPage(nextPage) : null,
+	};
 }
