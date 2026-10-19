@@ -6,7 +6,7 @@ import type { PageServerLoad } from './$types';
 import { SMUGMUG_API_BASE } from '$lib/server/smugmug';
 import { API_KEY } from '$env/static/private';
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	const eventId = Number(params.slug);
 
 	if (!Number.isInteger(eventId)) error(404);
@@ -20,8 +20,15 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	if (!event.albumKey) return { event, imageUrls: [] };
 
+	return {
+		event,
+		imageUrls: getAlbumImages(event.albumKey)
+	};
+};
+
+async function getAlbumImages(albumKey) {
 	let res = await fetch(
-		`${SMUGMUG_API_BASE}/api/v2/album/${event.albumKey}!images?count=100&APIKey=${API_KEY}&_expand=ImageSizes`,
+		`${SMUGMUG_API_BASE}/api/v2/album/${albumKey}!images?count=100&APIKey=${API_KEY}&_expand=ImageSizes`,
 		{ headers: { Accept: 'application/json' } }
 	);
 
@@ -33,17 +40,20 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		const albumData = await res.json();
 
 		const images = albumData.Response?.AlbumImage ?? [];
-		imageUrls.push(...images.map((image) => {
-			const sizesUri = image.Uris?.ImageSizes?.Uri;
-			const sizeDetails = sizesUri ? albumData.Expansions?.[sizesUri] : null;
-			const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
-			const smallerImageUrl = sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
+		imageUrls.push(
+			...images.map((image) => {
+				const sizesUri = image.Uris?.ImageSizes?.Uri;
+				const sizeDetails = sizesUri ? albumData.Expansions?.[sizesUri] : null;
+				const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
+				const smallerImageUrl =
+					sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
 
-			return {
-				thumbnailUrl: smallerImageUrl,
-				largestImageUrl: largestImageUrl,
-			};
-		}));
+				return {
+					thumbnailUrl: smallerImageUrl,
+					largestImageUrl: largestImageUrl
+				};
+			})
+		);
 
 		if (albumData.Response?.Pages?.NextPage) {
 			res = await fetch(
@@ -55,8 +65,5 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		}
 	}
 
-	return {
-		event,
-		imageUrls
-	};
-};
+	return imageUrls;
+}
