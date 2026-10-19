@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { eventsTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
+import { SMUGMUG_API_BASE } from '$lib/server/smugmug';
 import { API_KEY } from '$env/static/private';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
@@ -19,29 +20,43 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	if (!event.albumKey) return { event, imageUrls: [] };
 
-	const res = await fetch(
-		`https://api.smugmug.com/api/v2/album/${event.albumKey}!images?APIKey=${API_KEY}&_expand=ImageSizes&count=100`,
+	let res = await fetch(
+		`${SMUGMUG_API_BASE}/api/v2/album/${event.albumKey}!images?count=100&APIKey=${API_KEY}&_expand=ImageSizes`,
 		{ headers: { Accept: 'application/json' } }
 	);
 
-	if (!res.ok) return { event, imageUrls: [] };
+	const imageUrls = [];
 
-	const imageData = await res.json();
+	while (true) {
+		if (!res.ok) break;
 
-	const images = imageData.Response?.AlbumImage ?? [];
-	const imageUrls = images.map((image) => {
-		const sizesUri = image.Uris?.ImageSizes?.Uri;
-		const sizeDetails = sizesUri ? imageData.Expansions?.[sizesUri] : null;
-		const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
-		const smallerImageUrl = sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
+		const albumData = await res.json();
 
-		return {
-			thumbnailUrl: smallerImageUrl,
-			largestImageUrl: largestImageUrl,
-		};
-	});
+		const images = albumData.Response?.AlbumImage ?? [];
+		imageUrls.push(...images.map((image) => {
+			const sizesUri = image.Uris?.ImageSizes?.Uri;
+			const sizeDetails = sizesUri ? albumData.Expansions?.[sizesUri] : null;
+			const largestImageUrl = sizeDetails?.ImageSizes?.LargestImageUrl ?? null;
+			const smallerImageUrl = sizeDetails?.ImageSizes?.MediumImageUrl ?? image?.ThumbnailUrl ?? null;
+
+			return {
+				thumbnailUrl: smallerImageUrl,
+				largestImageUrl: largestImageUrl,
+			};
+		}));
+
+		if (albumData.Response?.Pages?.NextPage) {
+			res = await fetch(
+				`${SMUGMUG_API_BASE}${albumData.Response.Pages.NextPage}&APIKey=${API_KEY}&_expand=ImageSizes`,
+				{ headers: { Accept: 'application/json' } }
+			);
+		} else {
+			break;
+		}
+	}
 
 	return {
-		event, imageUrls
+		event,
+		imageUrls
 	};
 };
