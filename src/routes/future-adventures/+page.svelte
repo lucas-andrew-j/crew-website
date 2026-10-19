@@ -1,23 +1,24 @@
 <script lang="ts">
     import default_background from '$lib/assets/default_background.jpg';
-    import EventCard from "$lib/components/EventCard.svelte";
 
     let { data } = $props();
 
-    let eventMonths: number[][] = [];
-    let month = 0;
+    const eventsByYear = $derived(
+      Map.groupBy(
+        data.events,
+        (event) => event.startDateTime.toLocaleDateString('en-US', { year: 'numeric', timeZone: 'America/Los_Angeles' }
+        )
+      )
+    );
 
-    for (let i = 0; i < data.events.length; i++) {
-        if (i == 0) {
-            eventMonths[month] = [];
-            eventMonths[month].push(i);
-        } else if (new Date(data.events[i].startDateTime).getMonth() === new Date(data.events[i - 1].startDateTime).getMonth()) {
-            eventMonths[month].push(i);
-        } else {
-            month++;
-            eventMonths[month] = [];
-            eventMonths[month].push(i);
+    const dateFormat = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' });
+    const yearFormat = new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone: 'America/Los_Angeles' });
+
+    function formatDateRange(start: Date, end: Date) {
+        if (yearFormat.format(start) !== yearFormat.format(end)) {
+            return `${dateFormat.format(start)} – ${dateFormat.format(end)}`;
         }
+        return dateFormat.formatRange(start, end);
     }
 </script>
 
@@ -28,12 +29,13 @@
 <main class="flex flex-1 justify-center">
     <img src={default_background} alt="looking north at Mt Hood, Mt Adams, and Mt St Helens" fetchpriority="high"
          class="fixed inset-0 -z-10 h-full w-full object-cover" />
-    <div class="p-8 bg-cover bg-center flex flex-col">
-        {#each eventMonths as eventMonth}
-            <h2>{data.events[eventMonth[0]].startDateTime.toLocaleString('default', { month: 'long'})}</h2>
-            {#each eventMonth as event}
-                <EventCard event={data.events[event]}/>
-            {/each}
+    <div class="prose prose-h2:my-0 prose-p:my-0 p-8 bg-cover bg-center">
+        <h1 class="text-default-blue">Future Adventures</h1>
+        {#each [...eventsByYear] as [year, yearEvents]}
+            <h2>{year}</h2>
+                {#each yearEvents as event}
+                    <p>{formatDateRange(event.startDateTime, event.endDateTime)}: {event.name}</p>
+                {/each}
         {/each}
     </div>
 </main>
