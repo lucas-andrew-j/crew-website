@@ -70,12 +70,12 @@ export const actions: Actions = {
 			});
 		} catch (error) {
 			if (error instanceof APIError) {
-				return fail(400, { message: 'Registration failed' });
+				return fail(400, { message: error.body?.message });
 			}
 			console.error(error);
 			return fail(500, { message: 'Unexpected error' });
 		}
 
-		return redirect(302, '/');
+		return {success: true, email };
 	}
 };

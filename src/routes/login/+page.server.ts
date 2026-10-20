@@ -64,6 +64,10 @@ export const actions: Actions = {
 			});
 		} catch (error) {
 			if (error instanceof APIError) {
+				if (error.body?.code === 'EMAIL_NOT_VERIFIED') {
+					return fail(403, { message: 'Please verify your email. We\'ve sent a new verification link.' });
+				}
+
 				return fail(400, { message: 'Login failed' });
 			}
 			console.error(error);
