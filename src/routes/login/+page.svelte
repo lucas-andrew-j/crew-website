@@ -7,6 +7,11 @@
 
 	let { form }: { form: ActionData } = $props();
 
+	let formEl: HTMLFormElement | undefined = $state();
+	let valid = $state(false);
+	let submitting = $state(false);
+	let turnstileDone = $state(false);
+
 	onMount(() => {
 		let widgetId: string | undefined;
 		let intervalCount = 1;
@@ -17,7 +22,11 @@
 			}
 
 			if (window.turnstile) {
-				widgetId = window.turnstile.render('.cf-turnstile', { sitekey: '0x4AAAAAAEp6CP5eujalxeMC' });
+				widgetId = window.turnstile.render('.cf-turnstile', {
+					sitekey: '0x4AAAAAAEp6CP5eujalxeMC',
+					callback: () => (turnstileDone = true),
+					'expired-callback': () => (turnstileDone = false),
+				});
 			}
 
 			intervalCount++;
@@ -39,10 +48,19 @@
 			 class="fixed inset-0 -z-10 h-full w-full object-cover"/>
 	<div class="prose mx-auto px-4 sm:px-6 mt-8">
 		<h1 class="text-default-blue">Login</h1>
-		<form method="POST" use:enhance={() => async ({ result }) => {
-			await applyAction(result);
-			await invalidate('app:auth');
-		}} class="flex flex-col [&_label]:flex [&_label]:flex-col [&_label]:pt-4">
+		<form method="POST"
+			bind:this={formEl}
+			oninput = {() => (valid = formEl!.checkValidity())}
+			use:enhance={() => {
+				submitting = true;
+				return async ({ result }) => {
+					await applyAction(result);
+					await invalidate('app:auth');
+					submitting = false;
+				};
+			}}
+			class="flex flex-col [&_label]:flex [&_label]:flex-col [&_label]:pt-4"
+		>
 			<label>
 				Email
 				<input
@@ -66,7 +84,12 @@
 			{#if form?.message}
 				<p class="text-red-600">{form.message}</p>
 			{/if}
-			<button type="submit" class="bg-default-blue text-white mt-4 h-12 w-36">Login</button>
+			<button type="submit"
+				disabled={!valid || !turnstileDone}
+				class="bg-default-blue text-white mt-4 h-12 w-36 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				Login
+			</button>
 			<a href="register">Need to register?</a>
 		</form>
 	</div>
